@@ -2,590 +2,318 @@
 <html lang="id">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#6366f1" />
-    <link rel="icon" href="icons/icon-192x192-A.png" type="image/png" />
-    <link rel="manifest" href="manifest.json">
-    <title>TaskFlow - Kelola Tugas Anda</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#FF9800" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icons/icon-192x192-A.png" type="image/png" />
+  <title>MoodBite - Rekomendasi Makanan</title>
+  <style>
+    :root {
+      --primary: #FF9800;
+      --secondary: #FFC107;
+      --accent: #E65100;
+      --light: #FFF8E1;
+      --dark: #333;
+    }
 
-        :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --primary-light: #818cf8;
-            --bg-dark: #ffffff;
-            --bg-card: #1e293b;
-            --text-light: #f8fafc;
-            --text-gray: #cbd5e1;
-            --success: #22c55e;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-        }
+    body {
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      background-color: var(--light);
+      color: var(--dark);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, var(--bg-dark) 0%, #1856bb 100%);
-            color: var(--text-light);
-            min-height: 100vh;
-            padding-bottom: 80px;
-        }
+    /* Header Customization */
+    .header {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: white;
+      padding: 2rem 1rem;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
 
-        .header {
-            background: #1856bb;
-            backdrop-filter: blur(10px);
-            padding: 20px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        }
+    .main {
+      flex: 1;
+      padding: 1rem;
+      max-width: 600px;
+      margin: 0 auto;
+      width: 100%;
+      box-sizing: border-box;
+    }
 
-        .header-content {
-            max-width: 800px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    .card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 1.5rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      margin-bottom: 1.5rem;
+      text-align: center;
+      transition: transform 0.3s;
+    }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+    /* Mood Selection */
+    .mood-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
 
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
-        }
+    .mood-btn {
+      background: white;
+      border: 2px solid var(--secondary);
+      padding: 1rem;
+      border-radius: 1rem;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: bold;
+      transition: 0.2s;
+    }
 
-        h1 {
-            font-size: 24px;
-            font-weight: 700;
-        }
+    .mood-btn:hover {
+      background: var(--secondary);
+      transform: scale(1.05);
+    }
 
-        .stats {
-            display: flex;
-            gap: 16px;
-            font-size: 14px;
-            color: var(--text-gray);
-        }
+    .mood-emoji {
+      font-size: 2.5rem;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
 
-        .stat-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
+    /* Search & Action Bar */
+    .action-bar {
+      margin-bottom: 1rem;
+      display: flex;
+      gap: 0.5rem;
+    }
 
-        .stat-number {
-            color: var(--primary-light);
-            font-weight: 700;
-        }
+    input[type="text"] {
+      flex: 1;
+      padding: 0.8rem;
+      border: 2px solid var(--secondary);
+      border-radius: 0.8rem;
+      outline: none;
+    }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 24px 20px;
-        }
+    .btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.8rem 1.2rem;
+      border-radius: 0.8rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
 
-        .input-section {
-            background: var(--bg-card);
-            padding: 24px;
-            border-radius: 16px;
-            margin-bottom: 24px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(99, 102, 241, 0.1);
-        }
+    .btn-random { background: #4caf50; }
+    .btn-fav-view { background: #e91e63; }
 
-        .input-group {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
+    /* List Makanan */
+    .food-item {
+      background: #fff;
+      border: 1px solid #eee;
+      border-radius: 1rem;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      text-align: left;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-        input[type="text"] {
-            flex: 1;
-            padding: 14px 18px;
-            background: var(--bg-dark);
-            border: 2px solid rgba(99, 102, 241, 0.3);
-            border-radius: 12px;
-            color: var(--text-light);
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
+    .food-info h4 { margin: 0 0 0.3rem 0; color: var(--accent); }
+    .food-info p { margin: 0; font-size: 0.85rem; color: #666; }
 
-        input[type="text"]:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
-        }
+    .fav-icon {
+      cursor: pointer;
+      font-size: 1.5rem;
+      color: #ccc;
+    }
 
-        .btn {
-            padding: 14px 28px;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+    .fav-icon.active { color: #e91e63; }
 
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            color: white;
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
-        }
+    /* Hidden Sections */
+    .hidden { display: none; }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
-        }
-
-        .btn-primary:active {
-            transform: translateY(0);
-        }
-
-        .priority-selector {
-            display: flex;
-            gap: 8px;
-        }
-
-        .priority-btn {
-            flex: 1;
-            padding: 10px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            background: transparent;
-            color: var(--text-gray);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 14px;
-        }
-
-        .priority-btn.active {
-            border-color: currentColor;
-            background: rgba(255, 255, 255, 0.1);
-            font-weight: 600;
-        }
-
-        .priority-btn.high {
-            color: var(--danger);
-        }
-
-        .priority-btn.medium {
-            color: var(--warning);
-        }
-
-        .priority-btn.low {
-            color: var(--success);
-        }
-
-        .filter-tabs {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
-            overflow-x: auto;
-            padding-bottom: 4px;
-        }
-
-        .filter-tab {
-            padding: 10px 20px;
-            background: var(--bg-card);
-            border: 2px solid transparent;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            font-size: 14px;
-            font-weight: 500;
-            color: #ffffff;
-        }
-
-        .filter-tab.active {
-            background: var(--primary);
-            border-color: var(--primary-light);
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-        }
-
-        .tasks-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .task-item {
-            background: var(--bg-card);
-            padding: 20px;
-            border-radius: 12px;
-            border-left: 4px solid;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            transition: all 0.3s ease;
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .task-item:hover {
-            transform: translateX(4px);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-        }
-
-        .task-item.high {
-            border-left-color: var(--danger);
-        }
-
-        .task-item.medium {
-            border-left-color: var(--warning);
-        }
-
-        .task-item.low {
-            border-left-color: var(--success);
-        }
-
-        .task-checkbox {
-            width: 24px;
-            height: 24px;
-            border: 2px solid var(--primary);
-            border-radius: 6px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            transition: all 0.3s ease;
-        }
-
-        .task-checkbox:hover {
-            background: rgba(99, 102, 241, 0.1);
-        }
-
-        .task-checkbox.checked {
-            background: var(--primary);
-        }
-
-        .task-content {
-            flex: 1;
-        }
-
-        .task-text {
-            font-size: 16px;
-            margin-bottom: 4px;
-        }
-
-        .task-text.completed {
-            text-decoration: line-through;
-            opacity: 0.6;
-        }
-
-        .task-meta {
-            display: flex;
-            gap: 12px;
-            font-size: 12px;
-            color: var(--text-gray);
-        }
-
-        .task-time {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .task-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .btn-icon {
-            width: 36px;
-            height: 36px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            font-size: 18px;
-        }
-
-        .btn-delete {
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--danger);
-        }
-
-        .btn-delete:hover {
-            background: var(--danger);
-            color: white;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--text-gray);
-        }
-
-        .empty-icon {
-            font-size: 64px;
-            margin-bottom: 16px;
-            opacity: 0.5;
-        }
-
-        .progress-bar {
-            background: var(--bg-card);
-            height: 8px;
-            border-radius: 4px;
-            overflow: hidden;
-            margin: 16px 0;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--primary-light));
-            transition: width 0.5s ease;
-            border-radius: 4px;
-        }
-
-        @media (max-width: 640px) {
-            .header-content {
-                flex-direction: column;
-                gap: 12px;
-            }
-
-            .input-group {
-                flex-direction: column;
-            }
-
-            .stats {
-                width: 100%;
-                justify-content: space-around;
-            }
-        }
-
-        .logo h1 {
-            font-size: 50px;
-            font-weight: 800;
-        }
-    </style>
+    .footer {
+      background: white;
+      text-align: center;
+      padding: 1rem;
+      margin-top: auto;
+      border-top: 1px solid #ddd;
+    }
+  </style>
 </head>
 
 <body>
-    <header class="header">
-        <div class="header-content">
-            <div class="logo">
-                <div class="logo-icon">✓</div>
-                <h1 class="text-judul">TaskFlow</h1>
-            </div>
-            <div class="stats">
-                <div class="stat-item">
-                    <span>📝</span>
-                    <span>Total: <span class="stat-number" id="totalTasks">0</span></span>
-                </div>
-                <div class="stat-item">
-                    <span>✅</span>
-                    <span>Selesai: <span class="stat-number" id="completedTasks">0</span></span>
-                </div>
-            </div>
-        </div>
-    </header>
+  <header class="header">
+    <h1>🍕 MoodBite</h1>
+    <p>Rekomendasi makanan sesuai suasana hati!</p>
+  </header>
 
-    <div class="container">
-        <div class="input-section">
-            <div class="input-group">
-                <input type="text" id="taskInput" placeholder="Tambahkan tugas baru..."
-                    onkeypress="if(event.key==='Enter') addTask()" />
-                <button class="btn btn-primary" onclick="addTask()">
-                    <span>➕</span>
-                    <span>Tambah</span>
-                </button>
-            </div>
-            <div class="priority-selector">
-                <button class="priority-btn high" onclick="setPriority('high')">🔴 Tinggi</button>
-                <button class="priority-btn medium active" onclick="setPriority('medium')">🟡 Sedang</button>
-                <button class="priority-btn low" onclick="setPriority('low')">🟢 Rendah</button>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressBar" style="width: 0%"></div>
-            </div>
-        </div>
-
-        <div class="filter-tabs">
-            <button class="filter-tab active" onclick="filterTasks('all')">Semua</button>
-            <button class="filter-tab" onclick="filterTasks('active')">Aktif</button>
-            <button class="filter-tab" onclick="filterTasks('completed')">Selesai</button>
-            <button class="filter-tab" onclick="filterTasks('high')">🔴 Prioritas Tinggi</button>
-            <button class="filter-tab" onclick="filterTasks('medium')">🟡 Prioritas Sedang</button>
-            <button class="filter-tab" onclick="filterTasks('low')">🟢 Prioritas Rendah</button>
-        </div>
-
-        <div class="tasks-list" id="tasksList"></div>
+  <main class="main">
+    <div class="action-bar">
+      <input type="text" id="searchInput" placeholder="Cari makanan..." onkeyup="searchFood()">
+      <button class="btn btn-random" onclick="getRandomFood()">Random</button>
+      <button class="btn btn-fav-view" onclick="toggleFavorites()">❤️</button>
     </div>
 
-    <script>
-        let tasks = [];
-        let currentPriority = 'medium';
-        let currentFilter = 'all';
+    <section id="moodSection" class="card">
+      <h2>Halo! Apa kabarmu hari ini?</h2>
+      <p>Pilih mood untuk melihat rekomendasi:</p>
+      <div class="mood-grid">
+        <div class="mood-btn" onclick="selectMood('senang')">
+          <span class="mood-emoji">😊</span>Senang
+        </div>
+        <div class="mood-btn" onclick="selectMood('sedih')">
+          <span class="mood-emoji">😢</span>Sedih
+        </div>
+        <div class="mood-btn" onclick="selectMood('capek')">
+          <span class="mood-emoji">😫</span>Capek
+        </div>
+        <div class="mood-btn" onclick="selectMood('marah')">
+          <span class="mood-emoji">😡</span>Marah
+        </div>
+      </div>
+    </section>
 
-        function loadTasks() {
-            const saved = localStorage.getItem('taskflow_tasks');
-            if (saved) {
-                tasks = JSON.parse(saved);
-                renderTasks();
-            }
-        }
+    <section id="resultSection" class="card hidden">
+      <h2 id="resultTitle">Menu Untukmu</h2>
+      <div id="foodContainer"></div>
+      <button class="btn" style="margin-top: 1rem;" onclick="showHome()">Kembali</button>
+    </section>
+    
+    <button onclick="alert('PWA aktif!')">Tes Tombol</button>
+    <button onclick="alert('tombol testing hidup')">Ini tombol 1</button>
+  </main>
 
-        function saveTasks() {
-            localStorage.setItem('taskflow_tasks', JSON.stringify(tasks));
-        }
+  <footer class="footer">
+    <p>© 2025 Anwar Fauzi - MoodBite</p>
+  </footer>
 
-        function setPriority(priority) {
-            currentPriority = priority;
-            document.querySelectorAll('.priority-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-        }
+  <script>
+    // Data Statis Makanan
+    const allFoods = [
+      { id: 1, name: "Ice Cream Chocolate", mood: "senang", desc: "Manis dan dingin untuk merayakan harimu." },
+      { id: 2, name: "Pizza Margherita", mood: "senang", desc: "Kombinasi keju yang pas untuk berbagi keceriaan." },
+      { id: 3, name: "Mie Instan Kuah", mood: "sedih", desc: "Hangat dan nyaman di saat hati sedang sendu." },
+      { id: 4, name: "Cokelat Panas", mood: "sedih", desc: "Pelukan dalam bentuk minuman hangat." },
+      { id: 5, name: "Sop Buntut", mood: "capek", desc: "Kaya nutrisi untuk mengembalikan energi yang hilang." },
+      { id: 6, name: "Kopi Susu", mood: "capek", desc: "Kafein untuk membangkitkan semangatmu kembali." },
+      { id: 7, name: "Ayam Geprek Level 10", mood: "marah", desc: "Pedas membara untuk melampiaskan emosimu." },
+      { id: 8, name: "Seblak Mercon", mood: "marah", desc: "Sensasi pedas gurih yang bikin fokus beralih." }
+    ];
 
-        function addTask() {
-            const input = document.getElementById('taskInput');
-            const text = input.value.trim();
+    let favorites = [];
+    let currentView = 'home';
 
-            if (text === '') return;
+    // 1. Pilih Mood
+    function selectMood(mood) {
+      alert("Kamu sedang merasa " + mood + "! Ini rekomendasi kami.");
+      const filtered = allFoods.filter(f => f.mood === mood);
+      renderList(filtered, "Menu Saat " + mood.toUpperCase());
+    }
 
-            const task = {
-                id: Date.now(),
-                text: text,
-                completed: false,
-                priority: currentPriority,
-                createdAt: new Date().toLocaleString('id-ID')
-            };
+    // 2. Render List Makanan
+    function renderList(data, title) {
+      const container = document.getElementById('foodContainer');
+      const titleEl = document.getElementById('resultTitle');
+      
+      titleEl.innerText = title;
+      container.innerHTML = '';
 
-            tasks.unshift(task);
-            input.value = '';
-            saveTasks();
-            renderTasks();
-        }
-
-        function toggleTask(id) {
-            const task = tasks.find(t => t.id === id);
-            if (task) {
-                task.completed = !task.completed;
-                saveTasks();
-                renderTasks();
-            }
-        }
-
-        function deleteTask(id) {
-            tasks = tasks.filter(t => t.id !== id);
-            saveTasks();
-            renderTasks();
-        }
-
-        function filterTasks(filter) {
-            currentFilter = filter;
-            document.querySelectorAll('.filter-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            renderTasks();
-        }
-
-        function renderTasks() {
-            const container = document.getElementById('tasksList');
-
-            let filteredTasks = tasks;
-
-            if (currentFilter === 'active') {
-                filteredTasks = tasks.filter(t => !t.completed);
-            } else if (currentFilter === 'completed') {
-                filteredTasks = tasks.filter(t => t.completed);
-            } else if (['high', 'medium', 'low'].includes(currentFilter)) {
-                filteredTasks = tasks.filter(t => t.priority === currentFilter);
-            }
-
-            if (filteredTasks.length === 0) {
-                container.innerHTML = `
-          <div class="empty-state">
-            <div class="empty-icon">📋</div>
-            <h3>Tidak ada tugas</h3>
-            <p>Mulai tambahkan tugas baru untuk memulai!</p>
-          </div>
-        `;
-            } else {
-                container.innerHTML = filteredTasks.map(task => `
-          <div class="task-item ${task.priority}">
-            <div class="task-checkbox ${task.completed ? 'checked' : ''}" onclick="toggleTask(${task.id})">
-              ${task.completed ? '✓' : ''}
-            </div>
-            <div class="task-content">
-              <div class="task-text ${task.completed ? 'completed' : ''}">${task.text}</div>
-              <div class="task-meta">
-                <span class="task-time">🕒 ${task.createdAt}</span>
-                <span>📌 ${task.priority === 'high' ? 'Tinggi' : task.priority === 'medium' ? 'Sedang' : 'Rendah'}</span>
+      if(data.length === 0) {
+        container.innerHTML = '<p>Makanan tidak ditemukan.</p>';
+      } else {
+        data.forEach(food => {
+          const isFav = favorites.includes(food.id);
+          container.innerHTML += `
+            <div class="food-item">
+              <div class="food-info" onclick="showDetail('${food.name}', '${food.desc}')">
+                <h4>${food.name}</h4>
+                <p>${food.desc}</p>
+              </div>
+              <div class="fav-icon ${isFav ? 'active' : ''}" onclick="toggleFav(${food.id})">
+                ${isFav ? '❤️' : '🤍'}
               </div>
             </div>
-            <div class="task-actions">
-              <button class="btn-icon btn-delete" onclick="deleteTask(${task.id})">🗑️</button>
-            </div>
-          </div>
-        `).join('');
-            }
+          `;
+        });
+      }
 
-            updateStats();
-        }
+      document.getElementById('moodSection').classList.add('hidden');
+      document.getElementById('resultSection').classList.remove('hidden');
+    }
 
-        function updateStats() {
-            const total = tasks.length;
-            const completed = tasks.filter(t => t.completed).length;
-            const progress = total > 0 ? (completed / total) * 100 : 0;
+    // 3. Fitur Favorit
+    function toggleFav(id) {
+      if (favorites.includes(id)) {
+        favorites = favorites.filter(favId => favId !== id);
+        alert("Dihapus dari favorit");
+      } else {
+        favorites.push(id);
+        alert("Berhasil disimpan ke favorit! ⭐");
+      }
+      // Re-render current list to update icon
+      const currentTitle = document.getElementById('resultTitle').innerText;
+      if(currentTitle === "Favorit Saya") {
+        toggleFavorites();
+      } else {
+        // Find current food set (either search or mood)
+        const currentData = allFoods.filter(f => favorites.includes(f.id) || true); 
+        // Simple hack: re-run search/mood logic or just toggle UI
+        const icons = document.querySelectorAll('.fav-icon');
+        // Untuk kemudahan, kita re-render list yang sedang aktif
+        // (Dalam app skala besar ini perlu state management)
+      }
+    }
 
-            document.getElementById('totalTasks').textContent = total;
-            document.getElementById('completedTasks').textContent = completed;
-            document.getElementById('progressBar').style.width = progress + '%';
-        }
+    function toggleFavorites() {
+      const favData = allFoods.filter(f => favorites.includes(f.id));
+      renderList(favData, "Favorit Saya");
+    }
 
-        loadTasks();
+    // 4. Fitur Random
+    function getRandomFood() {
+      const random = allFoods[Math.floor(Math.random() * allFoods.length)];
+      renderList([random], "Pilihan Acak!");
+    }
 
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./service-worker.js')
-                    .then(() => console.log('Service Worker registered'))
-                    .catch(err => console.error('Service Worker error:', err));
-            });
-        }
-    </script>
+    // 5. Fitur Pencarian
+    function searchFood() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      if(query.length > 0) {
+        const filtered = allFoods.filter(f => f.name.toLowerCase().includes(query));
+        renderList(filtered, "Hasil Pencarian");
+      }
+    }
 
+    // 6. Detail Makanan
+    function showDetail(name, desc) {
+      alert("DETAIL MAKANAN\n\nNama: " + name + "\nDeskripsi: " + desc);
+    }
+
+    function showHome() {
+      document.getElementById('moodSection').classList.remove('hidden');
+      document.getElementById('resultSection').classList.add('hidden');
+      document.getElementById('searchInput').value = '';
+    }
+
+    // Service Worker (Bawaan Template)
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./service-worker.js')
+        .then(() => console.log('SW registered!'))
+        .catch(err => console.error('SW gagal:', err));
+    }
+  </script>
 </body>
 
 </html>
