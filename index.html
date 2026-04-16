@@ -7,313 +7,42 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#FF9800" />
+  <meta name="theme-color" content="#4F46E5" />
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" href="icons/icon-192x192-A.png" type="image/png" />
-  <title>MoodBite - Rekomendasi Makanan</title>
-  <style>
-    :root {
-      --primary: #FF9800;
-      --secondary: #FFC107;
-      --accent: #E65100;
-      --light: #FFF8E1;
-      --dark: #333;
-    }
-
-    body {
-      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      margin: 0;
-      background-color: var(--light);
-      color: var(--dark);
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    /* Header Customization */
-    .header {
-      background: linear-gradient(135deg, var(--primary), var(--accent));
-      color: white;
-      padding: 2rem 1rem;
-      text-align: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-
-    .main {
-      flex: 1;
-      padding: 1rem;
-      max-width: 600px;
-      margin: 0 auto;
-      width: 100%;
-      box-sizing: border-box;
-    }
-
-    .card {
-      background: white;
-      padding: 1.5rem;
-      border-radius: 1.5rem;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-      margin-bottom: 1.5rem;
-      text-align: center;
-      transition: transform 0.3s;
-    }
-
-    /* Mood Selection */
-    .mood-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-      margin-top: 1.5rem;
-    }
-
-    .mood-btn {
-      background: white;
-      border: 2px solid var(--secondary);
-      padding: 1rem;
-      border-radius: 1rem;
-      cursor: pointer;
-      font-size: 1rem;
-      font-weight: bold;
-      transition: 0.2s;
-    }
-
-    .mood-btn:hover {
-      background: var(--secondary);
-      transform: scale(1.05);
-    }
-
-    .mood-emoji {
-      font-size: 2.5rem;
-      display: block;
-      margin-bottom: 0.5rem;
-    }
-
-    /* Search & Action Bar */
-    .action-bar {
-      margin-bottom: 1rem;
-      display: flex;
-      gap: 0.5rem;
-    }
-
-    input[type="text"] {
-      flex: 1;
-      padding: 0.8rem;
-      border: 2px solid var(--secondary);
-      border-radius: 0.8rem;
-      outline: none;
-    }
-
-    .btn {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 0.8rem 1.2rem;
-      border-radius: 0.8rem;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .btn-random { background: #4caf50; }
-    .btn-fav-view { background: #e91e63; }
-
-    /* List Makanan */
-    .food-item {
-      background: #fff;
-      border: 1px solid #eee;
-      border-radius: 1rem;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      text-align: left;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .food-info h4 { margin: 0 0 0.3rem 0; color: var(--accent); }
-    .food-info p { margin: 0; font-size: 0.85rem; color: #666; }
-
-    .fav-icon {
-      cursor: pointer;
-      font-size: 1.5rem;
-      color: #ccc;
-    }
-
-    .fav-icon.active { color: #e91e63; }
-
-    /* Hidden Sections */
-    .hidden { display: none; }
-
-    .footer {
-      background: white;
-      text-align: center;
-      padding: 1rem;
-      margin-top: auto;
-      border-top: 1px solid #ddd;
-    }
-  </style>
+  <title>PWA Template Responsif</title>
+  <link rel="stylesheet" href="assets/style.css" />
 </head>
 
 <body>
   <header class="header">
-    <h1>🍕 MoodBite</h1>
-    <p>Rekomendasi makanan sesuai suasana hati!</p>
+    <h1>PWA Template</h1>
+    <p>Contoh aplikasi web progresif yang responsif</p>
   </header>
 
   <main class="main">
-    <div class="action-bar">
-      <input type="text" id="searchInput" placeholder="Cari makanan..." onkeyup="searchFood()">
-      <button class="btn btn-random" onclick="getRandomFood()">Random</button>
-      <button class="btn btn-fav-view" onclick="toggleFavorites()">❤️</button>
-    </div>
-
-    <section id="moodSection" class="card">
-      <h2>Halo! Apa kabarmu hari ini?</h2>
-      <p>Pilih mood untuk melihat rekomendasi:</p>
-      <div class="mood-grid">
-        <div class="mood-btn" onclick="selectMood('senang')">
-          <span class="mood-emoji">😊</span>Senang
-        </div>
-        <div class="mood-btn" onclick="selectMood('sedih')">
-          <span class="mood-emoji">😢</span>Sedih
-        </div>
-        <div class="mood-btn" onclick="selectMood('capek')">
-          <span class="mood-emoji">😫</span>Capek
-        </div>
-        <div class="mood-btn" onclick="selectMood('marah')">
-          <span class="mood-emoji">😡</span>Marah
-        </div>
-      </div>
+    <section class="card">
+      <h2>Selamat Datang!</h2>
+      <p>
+        Ini adalah template PWA responsif. Kamu bisa ubah teks, warna, dan layout-nya sesuai kebutuhan.
+      </p>
+      <button onclick="alert('PWA aktif!')">Tes Tombol</button>
     </section>
-
-    <section id="resultSection" class="card hidden">
-      <h2 id="resultTitle">Menu Untukmu</h2>
-      <div id="foodContainer"></div>
-      <button class="btn" style="margin-top: 1rem;" onclick="showHome()">Kembali</button>
-    </section>
-    
-    <button onclick="alert('PWA aktif!')">Tes Tombol</button>
-    <button onclick="alert('tombol testing hidup')">Ini tombol 1</button>
   </main>
+  <button onclick="alert('tombol testing hidup')">Ini tombol 1</button>
 
   <footer class="footer">
-    <p>© 2025 Anwar Fauzi - MoodBite</p>
+    <p>© 2025 Anwar Fauzi</p>
   </footer>
 
   <script>
-    // Data Statis Makanan
-    const allFoods = [
-      { id: 1, name: "Ice Cream Chocolate", mood: "senang", desc: "Manis dan dingin untuk merayakan harimu." },
-      { id: 2, name: "Pizza Margherita", mood: "senang", desc: "Kombinasi keju yang pas untuk berbagi keceriaan." },
-      { id: 3, name: "Mie Instan Kuah", mood: "sedih", desc: "Hangat dan nyaman di saat hati sedang sendu." },
-      { id: 4, name: "Cokelat Panas", mood: "sedih", desc: "Pelukan dalam bentuk minuman hangat." },
-      { id: 5, name: "Sop Buntut", mood: "capek", desc: "Kaya nutrisi untuk mengembalikan energi yang hilang." },
-      { id: 6, name: "Kopi Susu", mood: "capek", desc: "Kafein untuk membangkitkan semangatmu kembali." },
-      { id: 7, name: "Ayam Geprek Level 10", mood: "marah", desc: "Pedas membara untuk melampiaskan emosimu." },
-      { id: 8, name: "Seblak Mercon", mood: "marah", desc: "Sensasi pedas gurih yang bikin fokus beralih." }
-    ];
-
-    let favorites = [];
-    let currentView = 'home';
-
-    // 1. Pilih Mood
-    function selectMood(mood) {
-      alert("Kamu sedang merasa " + mood + "! Ini rekomendasi kami.");
-      const filtered = allFoods.filter(f => f.mood === mood);
-      renderList(filtered, "Menu Saat " + mood.toUpperCase());
-    }
-
-    // 2. Render List Makanan
-    function renderList(data, title) {
-      const container = document.getElementById('foodContainer');
-      const titleEl = document.getElementById('resultTitle');
-      
-      titleEl.innerText = title;
-      container.innerHTML = '';
-
-      if(data.length === 0) {
-        container.innerHTML = '<p>Makanan tidak ditemukan.</p>';
-      } else {
-        data.forEach(food => {
-          const isFav = favorites.includes(food.id);
-          container.innerHTML += `
-            <div class="food-item">
-              <div class="food-info" onclick="showDetail('${food.name}', '${food.desc}')">
-                <h4>${food.name}</h4>
-                <p>${food.desc}</p>
-              </div>
-              <div class="fav-icon ${isFav ? 'active' : ''}" onclick="toggleFav(${food.id})">
-                ${isFav ? '❤️' : '🤍'}
-              </div>
-            </div>
-          `;
-        });
-      }
-
-      document.getElementById('moodSection').classList.add('hidden');
-      document.getElementById('resultSection').classList.remove('hidden');
-    }
-
-    // 3. Fitur Favorit
-    function toggleFav(id) {
-      if (favorites.includes(id)) {
-        favorites = favorites.filter(favId => favId !== id);
-        alert("Dihapus dari favorit");
-      } else {
-        favorites.push(id);
-        alert("Berhasil disimpan ke favorit! ⭐");
-      }
-      // Re-render current list to update icon
-      const currentTitle = document.getElementById('resultTitle').innerText;
-      if(currentTitle === "Favorit Saya") {
-        toggleFavorites();
-      } else {
-        // Find current food set (either search or mood)
-        const currentData = allFoods.filter(f => favorites.includes(f.id) || true); 
-        // Simple hack: re-run search/mood logic or just toggle UI
-        const icons = document.querySelectorAll('.fav-icon');
-        // Untuk kemudahan, kita re-render list yang sedang aktif
-        // (Dalam app skala besar ini perlu state management)
-      }
-    }
-
-    function toggleFavorites() {
-      const favData = allFoods.filter(f => favorites.includes(f.id));
-      renderList(favData, "Favorit Saya");
-    }
-
-    // 4. Fitur Random
-    function getRandomFood() {
-      const random = allFoods[Math.floor(Math.random() * allFoods.length)];
-      renderList([random], "Pilihan Acak!");
-    }
-
-    // 5. Fitur Pencarian
-    function searchFood() {
-      const query = document.getElementById('searchInput').value.toLowerCase();
-      if(query.length > 0) {
-        const filtered = allFoods.filter(f => f.name.toLowerCase().includes(query));
-        renderList(filtered, "Hasil Pencarian");
-      }
-    }
-
-    // 6. Detail Makanan
-    function showDetail(name, desc) {
-      alert("DETAIL MAKANAN\n\nNama: " + name + "\nDeskripsi: " + desc);
-    }
-
-    function showHome() {
-      document.getElementById('moodSection').classList.remove('hidden');
-      document.getElementById('resultSection').classList.add('hidden');
-      document.getElementById('searchInput').value = '';
-    }
-
-    // Service Worker (Bawaan Template)
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('./service-worker.js')
         .then(() => console.log('SW registered!'))
         .catch(err => console.error('SW gagal:', err));
     }
   </script>
+
 </body>
 
 </html>
