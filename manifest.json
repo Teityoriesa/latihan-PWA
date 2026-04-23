@@ -108,5 +108,12 @@
       "text": "text",
       "url": "url"
     }
-  }
+  },
+  "protocol_handlers": [
+    {
+      "protocol": "web+moodbite",
+      "url": "./index.html?protocol=%s"
+    }
+  ],
+  "prefer_related_applications": false
 }
