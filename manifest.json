@@ -75,7 +75,8 @@
   "categories": [
     "lifestyle",
     "food",
-    "utilities"
+    "utilities",
+    "note_taking"
   ],
   "edge_side_panel": {
     "preferred_width": 400
