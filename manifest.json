@@ -13,13 +13,13 @@
   "icons": [
     {
       "src": "icons/IKON_2.png",
-      "sizes": "192x192",
+      "sizes": "612x408",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
       "src": "icons/IKON_2.png",
-      "sizes": "512x512",
+      "sizes": "612x408",
       "type": "image/png",
       "purpose": "any maskable"
     }
@@ -46,7 +46,7 @@
       "icons": [
         {
           "src": "icons/IKON_2.png",
-          "sizes": "192x192"
+          "sizes": "612x408"
         }
       ]
     }
