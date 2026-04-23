@@ -133,6 +133,18 @@
     }
   ],
 
+  "scope_extensions": [
+    {
+      "origin": "https://moodbite.app"
+    },
+    {
+      "origin": "https://api.moodbite.app"
+    },
+    {
+      "origin": "https://cdn.moodbite.app"
+    }
+  ],
+
   "widgets": [
     {
       "name": "MoodBite Mood Check",
