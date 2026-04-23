@@ -46,7 +46,7 @@
       "icons": [
         {
           "src": "icons/icon2.png",
-          "sizes": "612x408"
+          "sizes": "512x512"
         }
       ]
     }
