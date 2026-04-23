@@ -115,5 +115,99 @@
       "url": "./index.html?protocol=%s"
     }
   ],
-  "prefer_related_applications": false
+  "prefer_related_applications": false,
+
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=com.moodbite.app",
+      "id": "com.moodbite.app"
+    },
+    {
+      "platform": "itunes",
+      "url": "https://apps.apple.com/app/moodbite/id0000000000"
+    },
+    {
+      "platform": "webapp",
+      "url": "https://moodbite.app/manifest.json"
+    }
+  ],
+
+  "widgets": [
+    {
+      "name": "MoodBite Mood Check",
+      "short_name": "Mood Check",
+      "description": "Cek mood dan dapatkan rekomendasi makanan langsung dari widget.",
+      "tag": "moodbite-mood-check",
+      "template": "widgets/mood-check.html",
+      "ms_ac_template": "widgets/mood-check-adaptivecard.json",
+      "data": "widgets/mood-check-data.json",
+      "type": "application/json",
+      "icons": [
+        {
+          "src": "icons/icon1.png",
+          "sizes": "192x192",
+          "type": "image/png",
+          "purpose": "any"
+        },
+        {
+          "src": "icons/icon2.png",
+          "sizes": "512x512",
+          "type": "image/png",
+          "purpose": "any"
+        }
+      ],
+      "screenshots": [
+        {
+          "src": "icons/screenshot1.png",
+          "sizes": "800x1726",
+          "type": "image/png",
+          "label": "Widget Mood Check MoodBite"
+        }
+      ],
+      "backgrounds": [
+        {
+          "src": "icons/widget-bg.png",
+          "sizes": "400x200",
+          "type": "image/png"
+        }
+      ],
+      "auth": false,
+      "update": 3600
+    },
+    {
+      "name": "MoodBite Rekomendasi Harian",
+      "short_name": "Rekomendasi",
+      "description": "Tampilkan rekomendasi makanan harian berdasarkan mood terakhir Anda.",
+      "tag": "moodbite-daily-recommendation",
+      "template": "widgets/daily-recommendation.html",
+      "ms_ac_template": "widgets/daily-recommendation-adaptivecard.json",
+      "data": "widgets/daily-recommendation-data.json",
+      "type": "application/json",
+      "icons": [
+        {
+          "src": "icons/icon1.png",
+          "sizes": "192x192",
+          "type": "image/png",
+          "purpose": "any"
+        },
+        {
+          "src": "icons/icon2.png",
+          "sizes": "512x512",
+          "type": "image/png",
+          "purpose": "any"
+        }
+      ],
+      "screenshots": [
+        {
+          "src": "icons/screenshot2.png",
+          "sizes": "1887x878",
+          "type": "image/png",
+          "label": "Widget Rekomendasi Harian MoodBite"
+        }
+      ],
+      "auth": false,
+      "update": 86400
+    }
+  ]
 }
