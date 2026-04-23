@@ -1,47 +1,43 @@
 {
   "id": "./",
-  "name": "MoodBite - Rekomendasi Makanan",
-  "short_name": "MoodBite",
-  "description": "Aplikasi cerdas untuk mendapatkan rekomendasi makanan terbaik berdasarkan suasana hati (mood) Anda.",
+  "name": "PWA Template Responsif",
+  "short_name": "PWA Demo",
+  "description": "Aplikasi PWA responsif untuk demonstrasi template dasar Progressive Web App dengan dukungan offline dan installable.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#FFF9F0",
-  "theme_color": "#FFD54F",
+  "background_color": "#4F46E5",
+  "theme_color": "#4F46E5",
   "orientation": "portrait",
   "lang": "id",
   "icons": [
     {
       "src": "icons/icon-192x192-A.png",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     },
     {
       "src": "icons/icon-512x512-B.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     }
   ],
   "screenshots": [
     {
       "src": "icons/screenshot1.png",
       "sizes": "1080x1920",
-      "type": "image/png",
-      "label": "Halaman Utama MoodBite"
+      "type": "image/png"
     },
     {
       "src": "icons/screenshot2.png",
       "sizes": "1080x1920",
-      "type": "image/png",
-      "label": "Hasil Rekomendasi Makanan"
+      "type": "image/png"
     }
   ],
   "shortcuts": [
     {
-      "name": "Cek Mood Hari Ini",
-      "short_name": "Mood Check",
+      "name": "Buka Beranda",
+      "short_name": "Home",
       "url": "./index.html",
       "icons": [
         {
@@ -52,8 +48,7 @@
     }
   ],
   "categories": [
-    "lifestyle",
-    "food",
+    "productivity",
     "utilities"
   ]
 }
