@@ -6,6 +6,7 @@
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui", "browser"],
   "background_color": "#FFF9F0",
   "theme_color": "#FFD54F",
   "orientation": "portrait",
@@ -118,7 +119,6 @@
     }
   ],
   "prefer_related_applications": false,
-
   "related_applications": [
     {
       "platform": "play",
@@ -134,7 +134,6 @@
       "url": "https://moodbite.app/manifest.json"
     }
   ],
-
   "scope_extensions": [
     {
       "origin": "https://moodbite.app"
@@ -146,7 +145,6 @@
       "origin": "https://cdn.moodbite.app"
     }
   ],
-
   "widgets": [
     {
       "name": "MoodBite Mood Check",
