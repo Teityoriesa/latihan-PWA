@@ -1,721 +1,483 @@
 <!DOCTYPE html>
-
 <html lang="id">
 
-
-
 <head>
-
   <meta charset="UTF-8" />
-
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-
   <meta name="mobile-web-app-capable" content="yes">
-
   <meta name="apple-mobile-web-app-capable" content="yes">
-
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
-  <meta name="theme-color" content="#FFD54F" />
-
+  <meta name="theme-color" content="#FFB300" />
   <link rel="manifest" href="manifest.json" />
-
-  <link rel="icon" href="icons/icon1.png" type="image/png" />
-
+  <link rel="icon" href="icons/icon-192x192-A.png" type="image/png" />
   <title>MoodBite - Rekomendasi Makanan</title>
-
- 
-
+  
   <style>
-
     :root {
-
-      --primary: #FFD54F;
-
-      --secondary: #FF8A65;
-
-      --accent: #E65100;
-
-      --bg: #FFF9F0;
-
+      --primary: #FFB300;
+      --primary-light: #FFE082;
+      --secondary: #FF7043;
+      --accent: #D84315;
+      --bg: #FFFDF9;
       --white: #ffffff;
-
-      --dark: #333333;
-
-      --shadow: 0 10px 25px rgba(0,0,0,0.1);
-
-      --radius: 20px;
-
+      --dark: #2C3E50;
+      --shadow: 0 10px 20px rgba(0,0,0,0.08);
+      --radius: 16px;
     }
-
-
 
     body {
-
       font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-
       margin: 0;
-
       background-color: var(--bg);
-
       color: var(--dark);
-
       scroll-behavior: smooth;
-
     }
 
-
-
-    .header {
-
-      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
-
-                  url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1000&q=80');
-
-      background-size: cover;
-
-      background-position: center;
-
-      color: white;
-
-      padding: 4rem 1.5rem;
-
-      text-align: center;
-
-      box-shadow: var(--shadow);
-
-    }
-
-
-
-    .header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; color: var(--primary); }
-
-    .header p { font-size: 1.1rem; opacity: 0.9; }
-
-
-
+    /* Sticky Navbar */
     .nav-bar {
-
       display: flex;
-
       justify-content: space-around;
-
       background: var(--white);
-
-      padding: 15px;
-
+      padding: 15px 0;
       position: sticky;
-
       top: 0;
-
       z-index: 100;
-
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-
+      box-shadow: 0 2px 10px rgba(0,0,0,0.04);
     }
 
+    .nav-item { 
+      cursor: pointer; 
+      font-weight: bold; 
+      color: #888888; 
+      transition: 0.3s;
+      padding: 5px 10px;
+    }
+    .nav-item.active { 
+      color: var(--accent); 
+      border-bottom: 3px solid var(--secondary); 
+    }
 
+    /* Header Banner Tanpa Foto */
+    .header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 3rem 1.5rem;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
 
-    .nav-item { cursor: pointer; font-weight: bold; color: var(--secondary); transition: 0.3s; }
+    .header h1 { font-size: 2.8rem; margin: 0 0 0.5rem 0; font-weight: 800; text-shadow: 1px 1px 4px rgba(0,0,0,0.15); }
+    .header p { font-size: 1.1rem; margin: 0; opacity: 0.95; }
 
-    .nav-item.active { color: var(--accent); border-bottom: 2px solid var(--accent); }
+    .main { padding: 1.5rem; max-width: 900px; margin: 0 auto; min-height: 65vh; }
 
+    /* Ads Banner Style */
+    .ads-container {
+      background: #FFF3E0;
+      border: 2px dashed var(--secondary);
+      border-radius: var(--radius);
+      padding: 15px;
+      margin-bottom: 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      animation: pulse 2s infinite;
+    }
+    .ads-content h4 { margin: 0; color: var(--accent); font-size: 1.1rem; }
+    .ads-content p { margin: 5px 0 0 0; font-size: 0.9rem; color: #555; }
+    .ads-badge { background: var(--secondary); color: white; padding: 4px 8px; font-size: 0.75rem; font-weight: bold; border-radius: 6px; text-transform: uppercase; }
 
-
-    .main { padding: 1.5rem; max-width: 900px; margin: 0 auto; min-height: 70vh; }
-
-
-
+    /* Mood Selection */
+    .mood-title { text-align: center; color: var(--accent); font-weight: 700; margin-bottom: 25px; }
     .mood-grid {
-
       display: grid;
-
       grid-template-columns: repeat(2, 1fr);
-
       gap: 15px;
-
-      margin-top: 20px;
-
+      margin-bottom: 35px;
     }
-
-
 
     .mood-btn {
-
       background: var(--white);
-
-      border: none;
-
-      padding: 25px;
-
+      border: 2px solid #F1F2F6;
+      padding: 20px;
       border-radius: var(--radius);
-
       cursor: pointer;
-
       box-shadow: var(--shadow);
-
-      transition: 0.3s ease;
-
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       display: flex;
-
       flex-direction: column;
-
       align-items: center;
-
       font-size: 1.1rem;
-
       font-weight: bold;
-
+      color: var(--dark);
     }
 
+    .mood-btn:hover { 
+      transform: translateY(-5px); 
+      background: var(--primary-light); 
+      border-color: var(--primary);
+    }
+    .mood-btn span { font-size: 3rem; margin-bottom: 8px; }
 
+    /* Section Title */
+    .section-title { color: var(--accent); border-left: 5px solid var(--secondary); padding-left: 10px; margin: 30px 0 20px 0; }
 
-    .mood-btn:hover { transform: translateY(-5px); background: var(--primary); }
+    /* Food & Partner Grid Layout */
+    .food-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
 
-    .mood-btn span { font-size: 2.5rem; margin-bottom: 10px; }
-
-
-
-    .card { background: var(--white); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); margin-bottom: 20px; transition: 0.3s; border: 1px solid #f0f0f0; }
-
-    .food-img { width: 100%; height: 200px; object-fit: cover; }
-
+    .card { 
+      background: var(--white); 
+      border-radius: var(--radius); 
+      overflow: hidden; 
+      box-shadow: var(--shadow); 
+      transition: transform 0.3s ease, box-shadow 0.3s ease; 
+      border: 1px solid #F1F2F6; 
+    }
+    .card:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(0,0,0,0.12); }
+    .food-img { width: 100%; height: 210px; object-fit: cover; background-color: #EAEAEA; }
     .card-body { padding: 20px; }
+    .card-title { font-size: 1.3rem; margin: 0 0 8px 0; color: var(--dark); font-weight: 700; }
+    .card-desc { font-size: 0.9rem; color: #666; margin: 0 0 15px 0; line-height: 1.5; }
 
-    .card-title { font-size: 1.3rem; margin: 0; color: var(--accent); }
-
-    .card-desc { font-size: 0.9rem; color: #666; margin: 10px 0; line-height: 1.4; }
-
-
-
+    /* Buttons Configuration */
     .btn-group { display: flex; gap: 10px; }
+    .btn { flex: 1; padding: 12px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; transition: all 0.2s; text-align: center; font-size: 0.9rem; }
+    .btn-main { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; }
+    .btn-main:hover { opacity: 0.9; }
+    .btn-fav { background: #FFF0F0; color: #FF5252; }
+    .btn-fav.active { background: #FF5252; color: white; }
+    .btn-outline { background: transparent; border: 2px solid var(--secondary); color: var(--accent); }
+    .btn-outline:hover { background: var(--secondary); color: white; }
 
-    .btn { flex: 1; padding: 12px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; transition: 0.2s; }
-
-    .btn-main { background: var(--primary); color: var(--accent); }
-
-    .btn-fav { background: #fff0f0; color: #ff5252; }
-
-    .btn-fav.active { background: #ff5252; color: white; }
-
-
-
+    /* Detail Overlay Screen */
     .overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:white; z-index: 1000; display:none; overflow-y: auto; padding-bottom: 40px; }
+    .overlay-close { position: absolute; top:20px; left:20px; background:var(--primary); border:none; padding:10px 18px; border-radius:10px; cursor:pointer; font-weight:bold; box-shadow: var(--shadow); }
+    .detail-hero { width:100%; height:320px; object-fit:cover; background-color: #EAEAEA; }
+    .detail-content { padding: 2rem; max-width: 750px; margin: 0 auto; }
+    .reason-box { background: #FFF3E0; padding: 20px; border-radius: 15px; margin: 25px 0; border-left: 5px solid var(--secondary); }
 
-    .overlay-close { position: absolute; top:20px; left:20px; background:var(--primary); border:none; padding:10px 15px; border-radius:10px; cursor:pointer; font-weight:bold; }
+    /* Simple Toast Notification */
+    #toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(44, 62, 80, 0.95); color: white; padding: 14px 28px; border-radius: 50px; display: none; z-index: 2000; box-shadow: 0 5px 15px rgba(0,0,0,0.2); font-weight: 500; font-size: 0.95rem; text-align: center; }
 
-    .detail-hero { width:100%; height:300px; object-fit:cover; }
-
-    .detail-content { padding: 2rem; max-width: 800px; margin: 0 auto; }
-
-    .reason-box { background: #fff3e0; padding: 20px; border-radius: 15px; margin: 20px 0; border-left: 5px solid var(--secondary); }
-
-
-
-    #toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--dark); color: white; padding: 12px 25px; border-radius: 30px; display: none; z-index: 2000; animation: fadeIn 0.5s; }
-
-
-
+    /* Helpers & Footer */
     .hidden { display: none; }
+    .text-center { text-align: center; }
+    .footer { background: #F8F9FA; text-align: center; padding: 1.5rem; margin-top: 3rem; border-top: 1px solid #E9ECEF; color: #7F8C8D; font-size: 0.9rem; }
 
-    .footer { background: #eee; text-align: center; padding: 1rem; margin-top: 2rem; }
-
-
-
-    @keyframes fadeIn { from { opacity: 0; bottom: 0; } to { opacity: 1; bottom: 20px; } }
-
-
-
-    @media (min-width: 600px) {
-
-      .food-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.01); }
+      100% { transform: scale(1); }
     }
 
+    /* Responsive Breakthrough */
+    @media (min-width: 600px) {
+      .food-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    }
   </style>
-
 </head>
-
-
 
 <body>
 
-  <header class="header">
-
-    <h1>MoodBite</h1>
-
-    <p>Temukan rasa yang paling tepat untuk hatimu hari ini.</p>
-
-  </header>
-
-
-
   <nav class="nav-bar">
-
     <div class="nav-item active" id="nav-home" onclick="showPage('home')">Beranda</div>
-
     <div class="nav-item" id="nav-fav" onclick="showPage('fav')">Favorit ❤️</div>
-
     <div class="nav-item" id="nav-hist" onclick="showPage('hist')">Riwayat</div>
-
   </nav>
 
-
+  <header class="header">
+    <h1>MoodBite 🍊</h1>
+    <p>Temukan rasa makanan yang paling pas untuk isi hatimu hari ini.</p>
+  </header>
 
   <main class="main">
+    
+    <div id="app-ads" class="ads-container">
+      <div class="ads-content">
+        <span class="ads-badge">Promo Spesial</span>
+        <h4 id="ads-title">Diskon 25% Ayam Geprek Mantap!</h4>
+        <p id="ads-desc">Gunakan kode kupon "MOODGEPREK" khusus pemesanan hari ini.</p>
+      </div>
+    </div>
 
     <section id="page-home">
-
-      <h2 style="text-align: center; color: var(--accent);">Bagaimana perasaanmu?</h2>
-
+      <h2 class="mood-title">Bagaimana suasana hatimu sekarang?</h2>
       <div class="mood-grid">
-
-        <button class="mood-btn" onclick="getRecommendation('senang')"><span>😄</span>Senang</button>
-
+        <button class="mood-btn" onclick="getRecommendation('senang')"><span>😊</span>Senang</button>
         <button class="mood-btn" onclick="getRecommendation('sedih')"><span>😢</span>Sedih</button>
-
         <button class="mood-btn" onclick="getRecommendation('capek')"><span>😴</span>Capek</button>
-
-        <button class="mood-btn" onclick="getRecommendation('marah')"><span>😡</span>Marah</button>
-
+        <button class="mood-btn" onclick="getRecommendation('marah')"><span>...</span>Marah</button>
       </div>
 
+      <h3 class="section-title">UMKM & Restoran Mitra Partner</h3>
+      <div id="partner-container" class="food-grid"></div>
     </section>
-
-
 
     <section id="page-recom" class="hidden">
-
-      <h2 id="recom-title" style="color: var(--accent);">Rekomendasi Spesial</h2>
-
+      <h2 id="recom-title" class="section-title">Rekomendasi Spesial Untukmu</h2>
       <div id="food-container" class="food-grid"></div>
-
-      <button class="btn btn-main" style="width:100%; margin-top:20px" onclick="showPage('home')">← Pilih Mood Lain</button>
-
+      <button class="btn btn-main" style="width:100%; margin-top:25px; padding:15px;" onclick="showPage('home')">← Pilih Suasana Hati Lain</button>
     </section>
-
-
 
     <section id="page-fav" class="hidden">
-
-      <h2 style="color: var(--accent);">Favorit Saya ❤️</h2>
-
+      <h2 class="section-title">Daftar Kuliner Favoritku ❤️</h2>
       <div id="fav-container" class="food-grid"></div>
-
     </section>
-
-
 
     <section id="page-hist" class="hidden">
-
-      <h2 style="color: var(--accent);">Riwayat Mood Kamu</h2>
-
+      <h2 class="section-title">Jejak Riwayat Emosimu</h2>
       <div id="hist-container"></div>
-
     </section>
-
   </main>
 
-
-
-  <div id="detail-overlay" class="overlay">
-
-    <button class="overlay-close" onclick="closeDetail()">← Kembali</button>
-
-    <div id="detail-dynamic-content"></div>
-
+  <div class="text-center" style="margin-bottom: 10px;">
+    <button class="btn" style="max-width:200px; background:#ccc; color:#333;" onclick="alert('tombol testing hidup')">Ini tombol 1</button>
   </div>
 
+  <div id="detail-overlay" class="overlay">
+    <button class="overlay-close" onclick="closeDetail()">← Kembali</button>
+    <div id="detail-dynamic-content"></div>
+  </div>
 
-
-  <div id="toast">Rekomendasi untuk kamu hari ini 🍽️</div>
-
-
+  <div id="toast">Rekomendasi disiapkan! 🍽️</div>
 
   <footer class="footer">
-
     <p>© 2025 Anwar Fauzi</p>
-
   </footer>
 
-
-
   <script>
-
+    // DATA STATIC HARDCODED (20-30 Jenis Kuliner Terpopuler & Sesuai Mood)
+    // Silakan ganti isi properti "img" menjadi path lokal kamu, contoh: "images/seblak.jpg"
     const database = [
+      // SUASANA: SENANG 😊 (Makanan Manis, Pesta, Rayakan Mood)
+      { id: 1, mood: 'senang', name: "Nasi Goreng Spesial", desc: "Nasi goreng komplit dengan telur mata sapi, sosis, ayam suwir, dan kerupuk renyah.", reason: "Nasi goreng lezat yang melengkapi rasa syukur dan kebahagiaanmu hari ini.", img: "images/nasi-goreng.jpg" },
+      { id: 2, mood: 'senang', name: "Burger Jumbo Keju", desc: "Roti lembut bertumpuk daging sapi panggang juicy dengan lelehan keju cheddar asli.", reason: "Makanan selebrasi yang sangat pas disantap kala perasaanmu penuh suka cita.", img: "images/burger.jpg" },
+      { id: 3, mood: 'senang', name: "Kentang Goreng Krispi", desc: "Potongan kentang gurih yang renyah di luar namun lembut di dalam dengan taburan bumbu keju.", reason: "Camilan santai yang asyik dikunyah untuk merayakan harimu yang luar biasa menyenangkan.", img: "images/kentang-goreng.jpg" },
+      { id: 4, mood: 'senang', name: "Sushi Salmon Roll", desc: "Gulungan nasi jepang dengan isian salmon segar, timun, bumbu mayones spesial.", reason: "Kesegaran hidangan sushi memberikan kombinasi nutrisi pembentuk getaran energi positif.", img: "images/sushi.jpg" },
+      { id: 5, mood: 'senang', name: "Donut Glazed Manis", desc: "Donat super empuk berbalur gula karamel transparan murni.", reason: "Glukosa ringan yang langsung memicu hormon dopamin kebahagiaanmu melesat tinggi.", img: "images/donat.jpg" },
+      { id: 6, mood: 'senang', name: "Es Krim Gelato Sundae", desc: "Es krim premium kombinasi rasa cokelat madu bertaburkan remahan kacang almond.", reason: "Sensasi dingin dan manisnya adalah hadiah penghargaan terbaik untuk diri kamu.", img: "images/es-krim.jpg" },
+      { id: 7, mood: 'senang', name: "Martabak Manis Keju", desc: "Martabak manis tebal berongga dengan lelehan mentega, susu kental manis, dan parutan keju melimpah.", reason: "Sajian nikmat berbagi yang melipatgandakan rasa senang jadi berkali lipat.", img: "images/martabak.jpg" },
 
-      // SENANG
+      // SUASANA: SEDIH 😢 (Comfort Food, Kuah Hangat, Penyembuh Lara)
+      { id: 8, mood: 'sedih', name: "Mie Ayam Bakso", desc: "Mie kenyal gurih toping ayam semur manis gurih disajikan dengan butiran bakso empuk.", reason: "Rasa klasik yang familier di lidah sanggup mengembalikan memori indah masa lalu.", img: "images/mie-ayam.jpg" },
+      { id: 9, mood: 'sedih', name: "Bakso Sapi Urat", desc: "Bakso urat jumbo dalam genangan kuah kaldu sapi panas beraroma bawang putih.", reason: "Kuah kaldu yang hangat bertindak bak pelukan hangat yang menenangkan kegundahan jiwamu.", img: "images/bakso.jpg" },
+      { id: 10, mood: 'sedih', name: "Ramen Kaldu Ayam", desc: "Mie jepang berkuah kaldu putih kental disajikan dengan telur setengah matang dan sosis.", reason: "Kehangatan kuahnya meresap perlahan meredakan kekosongan di dalam dada.", img: "images/ramen.jpg" },
+      { id: 11, mood: 'sedih', name: "Soto Ayam Rempah", desc: "Soto berkuah kuning rempah kunyit melimpah dipadu soun, tauge, dan ayam suwir.", reason: "Rempah tradisional berkhasiat menghangatkan fisik sekaligus menyembuhkan rasa sepi.", img: "images/soto-ayam.jpg" },
+      { id: 12, mood: 'sedih', name: "Bubur Ayam Gurih", desc: "Bubur bertekstur super lembut dengan siraman kuah kuning, cakwe, kacang tanah, dan kerupuk.", reason: "Tekstur makanan yang lembut memanjakan pencernaan saat kondisi mental sedang sendu.", img: "images/bubur-ayam.jpg" },
 
-      { id: 1, mood: 'senang', name: "Ice Cream Party", desc: "Berbagai rasa gelato premium dengan topping buah.", reason: "Camilan manis meningkatkan dopamin saat kamu bahagia.", img: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=500" },
+      // SUASANA: CAPEK 😴 (Pemberi Energi, Penghilang Kantuk, Pengisi Stamina)
+      { id: 13, mood: 'capek', name: "Kopi Susu Gula Aren", desc: "Perpaduan pas dari racikan espresso ganda, susu segar gurih, dan manisnya sirup gula aren.", reason: "Suntikan kafein murni instan mengusir tuntas rasa kantuk akibat tugas berat seharian.", img: "images/kopi-susu.jpg" },
+      { id: 14, mood: 'capek', name: "Boba Susu Gula Aren", desc: "Minuman susu segar dipadu karamel gula aren cair lengkap dengan boba kenyal bertesktur empuk.", reason: "Karbohidrat instan mengembalikan tenaga fisik yang terkuras habis dengan cepat.", img: "images/boba.jpg" },
+      { id: 15, mood: 'capek', name: "Toast Bakar Cokelat", desc: "Roti panggang tebal bertekstur renyah dengan isian selai cokelat pekat premium.", reason: "Glukosa cokelat memberi pasokan suplai energi ekstra bagi otak yang kelelahan berpikir.", img: "images/toast.jpg" },
+      { id: 16, mood: 'capek', name: "Sate Ayam Madura", desc: "Daging ayam pilihan empuk dibakar merata disiram saus kacang kental dan kecap manis.", reason: "Tinggi protein padat untuk memperbaiki dan meregenerasi sel-sel otot tubuh yang letih.", img: "images/sate.jpg" },
+      { id: 17, mood: 'capek', name: "Nasi Padang Lauk Rendang", desc: "Nasi padang lengkap dengan siraman kuah gulai kental, daun singkong, sambal ijo, dan daging rendang.", reason: "Kombinasi kalori tinggi terlengkap guna memulihkan stamina energi tubuh total.", img: "images/nasi-padang.jpg" },
 
-      { id: 2, mood: 'senang', name: "Pizza Meat Lovers", desc: "Pizza dengan keju melimpah dan potongan daging.", reason: "Pizza adalah makanan pesta yang paling cocok untuk merayakan kebahagiaan.", img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500" },
-
-      { id: 3, mood: 'senang', name: "Sushi Salmon Platter", desc: "Sushi segar dengan salmon kualitas tinggi.", reason: "Kesegaran salmon memberikan energi positif tambahan bagi hatimu.", img: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=500" },
-
-      { id: 4, mood: 'senang', name: "Burger Jumbo", desc: "Burger sapi dengan saus BBQ dan onion ring.", reason: "Kenikmatan penuh rasa untuk melengkapi harimu yang indah.", img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500" },
-
-      { id: 5, mood: 'senang', name: "Strawberry Parfait", desc: "Lapisan buah, krim, dan granola.", reason: "Warna cerah stroberi mencerminkan keceriaan harimu.", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500" },
-
-      { id: 6, mood: 'senang', name: "Tacos Beef", desc: "Tacos renyah khas Meksiko.", reason: "Tekstur renyah dan bumbu tajam bikin suasana makin meriah.", img: "https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=500" },
-
-      { id: 7, mood: 'senang', name: "Mango Smoothie", desc: "Minuman mangga segar tanpa gula tambahan.", reason: "Warna kuning cerah mangga identik dengan rasa senang.", img: "icons/manggosmoothie.png" },
-
-      { id: 8, mood: 'senang', name: "Donut Glazed", desc: "Donat lembut dengan lapisan gula tipis.", reason: "Kebahagiaan sederhana dalam satu gigitan manis.", img: "icons/donutglazed.png" },
-
-      { id: 9, mood: 'senang', name: "Fruit Salad", desc: "Campuran buah musiman dengan madu.", reason: "Vitamin alami menjaga mood senangmu tetap stabil.", img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500" },
-
-      { id: 10, mood: 'senang', name: "Chocolate Cake", desc: "Kue cokelat kental yang lumer.", reason: "Hadiah terbaik untuk dirimu yang sedang berbahagia.", img: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=500" },
-
-      { id: 11, mood: 'senang', name: "Rainbow Macaron", desc: "Kue mungil warna warni asal Perancis.", reason: "Warna warni macaron sejalan dengan warna hatimu saat ini.", img: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=500" },
-
-      { id: 12, mood: 'senang', name: "Honey Waffle", desc: "Waffle renyah dengan siraman madu.", reason: "Manisnya madu adalah cara alamiah merayakan kesenangan.", img: "icons/honeywaffle.png" },
-
-
-
-      // SEDIH
-
-      { id: 13, mood: 'sedih', name: "Cokelat Panas", desc: "Cokelat hangat dengan marshmallow kecil.", reason: "Cokelat dapat memicu hormon endorfin untuk menenangkan kesedihan.", img: "icons/coklatpanas.png" },
-
-      { id: 14, mood: 'sedih', name: "Mie Kuah Kaldu", desc: "Mie telur dengan kuah ayam yang gurih.", reason: "Kehangatan kuah mie memberikan rasa nyaman seperti sebuah pelukan.", img: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=500" },
-
-      { id: 15, mood: 'sedih', name: "Bubur Ayam", desc: "Bubur lembut dengan topping ayam suwir.", reason: "Makanan lembut tidak membebani pikiran saat kamu sedang sendu.", img: "icons/buburayam.png" },
-
-      { id: 16, mood: 'sedih', name: "Baked Mac n Cheese", desc: "Makaroni keju panggang yang creamy.", reason: "Comfort food nomor satu untuk memperbaiki suasana hati.", img: "icons/bakedmaccheese.png" },
-
-      { id: 17, mood: 'sedih', name: "Sup Jamur", desc: "Krim sup jamur kental dan hangat.", reason: "Rasa gurih yang tenang membantu menstabilkan emosi.", img: "icons/supjamur.png" },
-
-      { id: 18, mood: 'sedih', name: "Banana Bread", desc: "Roti pisang panggang yang wangi.", reason: "Aroma pisang dan kayu manis sangat menenangkan jiwa.", img: "icons/bananabread.png" },
-
-      { id: 19, mood: 'sedih', name: "Teh Chamomile", desc: "Teh bunga yang menenangkan.", reason: "Chamomile membantu tubuh rileks dan meredakan rasa cemas.", img: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=500" },
-
-      { id: 20, mood: 'sedih', name: "Lasagna", desc: "Pasta lapis dengan saus bolognaise.", reason: "Kandungan karbohidrat kompleks membantu menaikkan mood perlahan.", img: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=500" },
-
-      { id: 21, mood: 'sedih', name: "Soto Ayam", desc: "Kuah kuning soto dengan koya.", reason: "Kuah rempah tradisional adalah penyembuh rasa sepi yang ampuh.", img: "icons/sotoayam.png" },
-
-      { id: 22, mood: 'sedih', name: "Dark Chocolate", desc: "Cokelat hitam dengan 75% kakao.", reason: "Zat antioksidannya membantu menurunkan tingkat stres emosional.", img: "https://images.unsplash.com/photo-1515037893149-de7f840978e2?w=500" },
-
-      { id: 23, mood: 'sedih', name: "Wonton Soup", desc: "Pangsit rebus dalam kuah bening.", reason: "Makanan ringan yang menghangatkan perut dan hati.", img: "https://images.unsplash.com/photo-1523905330026-b8bd1f5f320e?w=500" },
-
-      { id: 24, mood: 'sedih', name: "Apple Pie", desc: "Pie apel kayu manis yang manis.", reason: "Rasa klasik yang membawa memori masa kecil yang bahagia.", img: "https://images.unsplash.com/photo-1568571780765-9276ac8b75a2?w=500" },
-
-
-
-      // CAPEK
-
-      { id: 25, mood: 'capek', name: "Sop Buntut", desc: "Sop buntut sapi yang kaya rempah.", reason: "Protein dan zat besi dari daging sapi memulihkan tenaga yang terkuras.", img: "icons/sopbuntut.png" },
-
-      { id: 26, mood: 'capek', name: "Kopi Susu Gula Aren", desc: "Espresso dengan susu dan gula aren.", reason: "Kafein instan untuk mengusir rasa kantuk setelah seharian bekerja.", img: "icons/kopisusugulaaren.png" },
-
-      { id: 27, mood: 'capek', name: "Almond Mix Nuts", desc: "Kacang panggang tanpa garam berlebih.", reason: "Magnesium dalam kacang almond membantu otot yang lelah menjadi rileks.", img: "icons/almondmixnuts.png" },
-
-      { id: 28, mood: 'capek', name: "Salmon Grilled", desc: "Salmon panggang kaya omega-3.", reason: "Omega-3 sangat baik untuk kesehatan otak setelah berpikir keras.", img: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=500" },
-
-      { id: 29, mood: 'capek', name: "Smoothie Bowl Acai", desc: "Buah beku dengan taburan granola.", reason: "Vitamin instan untuk recharge energi tubuh secara cepat.", img: "icons/smoothiebowlacai.png" },
-
-      { id: 30, mood: 'capek', name: "Nasi Steak Sapi", desc: "Irisan steak dengan nasi hangat.", reason: "Kombinasi karbo dan protein untuk pemulihan fisik total.", img: "icons/nasisteaksapi.png" },
-
-      { id: 31, mood: 'capek', name: "Alpukat Kocok", desc: "Alpukat mentega dengan susu cokelat.", reason: "Lemak sehat alpukat memberikan energi tahan lama.", img: "icons/alpukatkocok.png" },
-
-      { id: 32, mood: 'capek', name: "Oatmeal Cookies", desc: "Biskuit gandum sehat.", reason: "Gandum utuh melepas energi secara perlahan untuk stamina ekstra.", img: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=500" },
-
-      { id: 33, mood: 'capek', name: "Green Tea Latte", desc: "Teh hijau dengan susu hangat.", reason: "L-theanine dalam teh hijau menenangkan tanpa membuat kantuk.", img: "https://images.unsplash.com/photo-1515823064-d6e0c04616a7?w=500" },
-
-      { id: 34, mood: 'capek', name: "Gado Gado", desc: "Sayuran segar dengan saus kacang.", reason: "Serat sayuran menjaga metabolisme tubuh yang lelah tetap baik.", img: "icons/gado.png" },
-
-      { id: 35, mood: 'capek', name: "Dada Ayam Panggang", desc: "Ayam rendah lemak bumbu rempah.", reason: "Protein murni untuk memperbaiki sel tubuh yang lelah.", img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=500" },
-
-      { id: 36, mood: 'capek', name: "Yogurt Berry", desc: "Yogurt dingin dengan stroberi segar.", reason: "Kesegaran yogurt mendinginkan suhu tubuh yang kelelahan.", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500" },
-
-
-
-      // MARAH
-
-      { id: 37, mood: 'marah', name: "Ayam Geprek Lv.10", desc: "Ayam krispi dengan sambal bawang super pedas.", reason: "Rasa pedas membara membantu meluapkan emosi yang terpendam.", img: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=500" },
-
-      { id: 38, mood: 'marah', name: "Seblak Mercon", desc: "Kerupuk basah kuah kencur sangat pedas.", reason: "Sensasi pedas menyengat mengalihkan fokus amarahmu.", img: "icons/seblakmercon.png" },
-
-      { id: 39, mood: 'marah', name: "Es Jeruk Nipis", desc: "Perasan jeruk nipis dengan es batu.", reason: "Rasa asam dan dingin mendinginkan kepala yang sedang panas.", img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500" },
-
-      { id: 40, mood: 'marah', name: "Kimchi Soup", desc: "Sup sayuran fermentasi Korea yang pedas asam.", reason: "Rasa tajam kimchi meredam gejolak emosi di dada.", img: "icons/kimchisoup.png" },
-
-      { id: 41, mood: 'marah', name: "Samyang Noodles", desc: "Mie goreng pedas ala Korea.", reason: "Tantangan rasa pedas ekstrem membantu melepaskan stres.", img: "icons/samyangnoodles.png" },
-
-      { id: 42, mood: 'marah', name: "Keripik Kaca Pedas", desc: "Keripik tipis sangat renyah dan pedas.", reason: "Aktivitas mengunyah renyah membantu mengurangi ketegangan syaraf.", img: "https://images.unsplash.com/photo-1613919113640-25732ec5e61f?w=500" },
-
-      { id: 43, mood: 'marah', name: "Wings Buffalo", desc: "Sayap ayam saus pedas asam mentega.", reason: "Rasa yang 'kick' di lidah sangat pas untuk suasana hati meledak.", img: "https://images.unsplash.com/photo-1567620832903-9fc6debc209f?w=500" },
-
-      { id: 44, mood: 'marah', name: "Rujak Buah Pedas", desc: "Aneka buah asam dengan sambal cabai.", reason: "Kombinasi asam pedas mendinginkan pikiran yang kalut.", img: "icons/rujakbuahpedas.png" },
-
-      { id: 45, mood: 'marah', name: "Beef Bulgogi", desc: "Daging sapi tumis bumbu manis gurih.", reason: "Daging merah mengandung seng yang menenangkan sistem syaraf.", img: "icons/beefbulgoni.png" },
-
-      { id: 46, mood: 'marah', name: "Cucumber Salad", desc: "Irisan timun segar bumbu cuka.", reason: "Timun memiliki sifat mendinginkan suhu tubuh alami.", img: "icons/cucumbersalad.png" },
-
-      { id: 47, mood: 'marah', name: "Es Kelapa Muda", desc: "Air kelapa murni dan daging kelapa.", reason: "Elektrolit dalam kelapa menstabilkan detak jantung saat emosi.", img: "icons/eskelapamuda.png" },
-
-      { id: 48, mood: 'marah', name: " Soup", desc: "Sup Thailand asam pedas udang.", reason: "Rasa kuat yang menggugah indra pengalih amarah terbaik.", img: "icons/tomyumsoup.png" },
-
+      // SUASANA: MARAH 😠 (Makanan Super Pedas Pengalir Emosi, Dingin Penurun Suhu Kepala)
+      { id: 18, mood: 'marah', name: "Seblak Pedas Jeletot", desc: "Kerupuk basah, makaroni, sosis, telur diaduk kuah kencur pekat dengan cabai rawit merah segar melimpah.", reason: "Sensasi pedas membakar lidah membantu menyalurkan dan melepaskan emosi amarah terpendam.", img: "images/seblak.jpg" },
+      { id: 19, mood: 'marah', name: "Ayam Geprek Level 10", desc: "Dada ayam goreng tepung renyah yang ditumbuk kasar bersama ulekan puluhan cabai rawit bawang.", reason: "Tantangan rasa pedas ekstrem efektif mengalihkan fokus pikiran negatifmu seketika.", img: "images/ayam-geprek.jpg" },
+      { id: 20, mood: 'marah', name: "Mie Goreng Setan", desc: "Mie goreng pedas taburan daun bawang bawang goreng berlevel pedas gila.", reason: "Rasa pedas menyengat memicu endorfin keluar guna meredam letupan kemarahan.", img: "images/mie-goreng.jpg" },
+      { id: 21, mood: 'marah', name: "Cilor Maklor Pedas", desc: "Camilan aci telor mentega bumbu bubuk cabai merah pekat super pedas asin.", reason: "Aktivitas mengunyah makanan kenyal renyah terbukti meredakan ketegangan otot rahang akibat emosi.", img: "images/cilor.jpg" }
     ];
 
+    // DATA STATIC PARTNER (Fitur Monetisasi Bisnis UMKM)
+    const partners = [
+      { id: 1, name: "Seblak Jeletot Bandung", desc: "Pelopor seblak kuah rempah kencur pedas berlevel asli Bandung.", logo: "images/partner-seblak.jpg" },
+      { id: 2, name: "Geprek Mantap Solo", desc: "Ayam geprek krispi sambal korek fresh, diulek langsung pas kamu pesan.", logo: "images/partner-geprek.jpg" },
+      { id: 3, name: "Kedai Kopi Senja", desc: "Tempat nongkrong asyik anak muda dengan menu andalan Es Kopi Susu Gula Aren.", logo: "images/partner-kopi.jpg" },
+      { id: 4, name: "Bakso Pak Kumis", desc: "Bakso daging sapi asli legendaris berkuah kaldu super gurih sejak tahun 1995.", logo: "images/partner-bakso.jpg" }
+    ];
 
+    // DATA IKLAN (Fitur Monetisasi Ads Space)
+    const adsData = [
+      { title: "Diskon 25% Ayam Geprek Mantap!", desc: "Gunakan kode kupon 'MOODGEPREK' khusus pemesanan hari ini.", badge: "Promo Spesial" },
+      { title: "Buy 1 Get 1 Free Boba Time!", desc: "Beli varian aren susu gratis variant teh matcha di gerai terdekat.", badge: "Diskon UMKM" },
+      { title: "Kopi Susu Mulai Rp12.000 Aja!", desc: "Nikmati kesegaran kopi susu aren premium di Kedai Kopi Senja.", badge: "Iklan Mitra" }
+    ];
 
     let favorites = JSON.parse(localStorage.getItem('mb_favs')) || [];
-
     let history = JSON.parse(localStorage.getItem('mb_hist')) || [];
 
-
-
+    // Tampilkan Notifikasi Sederhana (Toast)
     function showToast(msg) {
-
       const toast = document.getElementById('toast');
-
       toast.innerText = msg;
-
       toast.style.display = 'block';
-
       setTimeout(() => { toast.style.display = 'none'; }, 3000);
-
     }
 
+    // Rotasi Iklan Acak Setiap Kali Ganti Halaman
+    function rotateAds() {
+      const randomIdx = Math.floor(Math.random() * adsData.length);
+      const selectedAd = adsData[randomIdx];
+      document.getElementById('ads-title').innerText = selectedAd.title;
+      document.getElementById('ads-desc').innerText = selectedAd.desc;
+      document.querySelector('.ads-badge').innerText = selectedAd.badge;
+    }
 
-
+    // Pengontrol Navigasi Antar Halaman
     function showPage(pageId) {
-
       document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden'));
-
       document.getElementById('page-' + pageId).classList.remove('hidden');
-
-     
-
+      
       document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-
       const activeNav = document.getElementById('nav-' + pageId);
-
       if(activeNav) activeNav.classList.add('active');
 
+      rotateAds(); // Jalankan sirkulasi iklan saat pindah menu
 
-
+      if(pageId === 'home') renderPartners();
       if(pageId === 'fav') renderFavorites();
-
       if(pageId === 'hist') renderHistory();
-
     }
 
-
-
+    // Ambil Data Berdasarkan Pilihan Mood Pengguna
     function getRecommendation(mood) {
-
-      showToast("Rekomendasi untuk kamu hari ini 🍽️");
-
+      // Modifikasi tampilan emoji tombol Marah demi estetika
+      let displayMood = mood === 'marah' ? 'MARAH 😠' : mood.toUpperCase();
+      showToast(`Mencari kuliner penyeimbang Mood ${displayMood}... 🍽️`);
+      
+      // Simpan Catatan ke Riwayat Pengguna
       const now = new Date();
-
       const dateStr = `${String(now.getDate()).padStart(2, '0')}-${String(now.getMonth() + 1).padStart(2, '0')}-${now.getFullYear()}`;
-
       history.unshift({ mood: mood, date: dateStr });
-
       localStorage.setItem('mb_hist', JSON.stringify(history));
 
-
-
       const filtered = database.filter(f => f.mood === mood);
-
       const container = document.getElementById('food-container');
-
       container.innerHTML = '';
 
-
-
+      // Tampilkan Daftar Makanan Sesuai Mood ke Card
       filtered.forEach(item => {
-
         const isFav = favorites.includes(item.id);
-
         container.innerHTML += `
-
           <div class="card">
-
-            <img src="${item.img}" class="food-img" alt="${item.name}">
-
+            <img src="${item.img}" class="food-img" alt="${item.name}" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500'">
             <div class="card-body">
-
               <h3 class="card-title">${item.name}</h3>
-
               <p class="card-desc">${item.desc}</p>
-
               <div class="btn-group">
-
                 <button class="btn btn-main" onclick="showDetail(${item.id})">Lihat Detail</button>
-
                 <button class="btn btn-fav ${isFav ? 'active' : ''}" onclick="toggleFav(${item.id}, this)">
-
                   ${isFav ? 'Hapus ❤️' : 'Favorit ❤️'}
-
                 </button>
-
               </div>
-
             </div>
-
           </div>
-
         `;
-
       });
-
-      document.getElementById('recom-title').innerText = `Rekomendasi Menu ${mood.toUpperCase()}`;
-
+      
+      let emojiTitle = mood === 'senang' ? '😊' : mood === 'sedih' ? '😢' : mood === 'capek' ? '😴' : '😠';
+      document.getElementById('recom-title').innerText = `Rekomendasi Menu Suasana ${mood.toUpperCase()} ${emojiTitle}`;
       showPage('recom');
-
     }
 
-
-
+    // Tampilkan Detail Makanan Lengkap & Alasan Logis Medis/Psikologis
     function showDetail(id) {
-
       const item = database.find(f => f.id === id);
-
       const content = document.getElementById('detail-dynamic-content');
-
+      let emoji = item.mood === 'senang' ? '😊' : item.mood === 'sedih' ? '😢' : item.mood === 'capek' ? '😴' : '😠';
+      
       content.innerHTML = `
-
-        <img src="${item.img}" class="detail-hero">
-
+        <img src="${item.img}" class="detail-hero" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500'">
         <div class="detail-content">
-
-          <h1 style="color:var(--accent)">${item.name}</h1>
-
-          <p style="font-size:1.1rem; line-height:1.6">${item.desc}</p>
-
+          <h1 style="color:var(--accent); margin:0 0 10px 0;">${item.name}</h1>
+          <p style="font-size:1.1rem; line-height:1.6; color:#4A5568;">${item.desc}</p>
           <div class="reason-box">
-
-            <h4>💡 Kenapa Cocok dengan Mood ${item.mood.toUpperCase()}?</h4>
-
-            <p>${item.reason}</p>
-
+            <h4 style="margin:0 0 8px 0; color:var(--accent)">💡 Kenapa Pas dengan Hatimu Yang Sedang ${item.mood.toUpperCase()} ${emoji}?</h4>
+            <p style="margin:0; line-height:1.5; color:#2D3748;">${item.reason}</p>
           </div>
-
         </div>
-
       `;
-
       document.getElementById('detail-overlay').style.display = 'block';
-
     }
-
-
 
     function closeDetail() {
-
       document.getElementById('detail-overlay').style.display = 'none';
-
     }
 
-
-
+    // Simpan Favorit (Local Storage Berkelanjutan)
     function toggleFav(id, btn) {
-
       if(favorites.includes(id)) {
-
         favorites = favorites.filter(fid => fid !== id);
-
         btn.classList.remove('active');
-
         btn.innerText = 'Favorit ❤️';
-
+        showToast("Dihapus dari daftar favorit.");
       } else {
-
         favorites.push(id);
-
         btn.classList.add('active');
-
         btn.innerText = 'Hapus ❤️';
-
+        showToast("Berhasil disimpan ke Favorit! ❤️");
       }
-
       localStorage.setItem('mb_favs', JSON.stringify(favorites));
-
     }
 
-
-
+    // Menggambar Halaman Favorit Pengguna
     function renderFavorites() {
-
       const container = document.getElementById('fav-container');
-
       const favData = database.filter(f => favorites.includes(f.id));
-
-      container.innerHTML = favData.length ? '' : '<p style="text-align:center; width:100%">Belum ada favorit yang disimpan.</p>';
-
+      container.innerHTML = favData.length ? '' : '<p class="text-center" style="grid-column:1/-1; color:#999; padding: 40px 0;">Belum ada kuliner favorit yang disimpan.</p>';
+      
       favData.forEach(item => {
-
         container.innerHTML += `
-
           <div class="card">
-
-            <img src="${item.img}" class="food-img">
-
+            <img src="${item.img}" class="food-img" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500'">
             <div class="card-body">
-
               <h3 class="card-title">${item.name}</h3>
-
               <div class="btn-group" style="margin-top:15px">
-
                 <button class="btn btn-main" onclick="showDetail(${item.id})">Lihat Detail</button>
-
                 <button class="btn btn-fav active" onclick="toggleFav(${item.id}, this); renderFavorites()">Hapus ❤️</button>
-
               </div>
-
             </div>
-
           </div>
-
         `;
-
       });
-
     }
 
+    // Menggambar Mitra Komersial UMKM Partner di Beranda
+    function renderPartners() {
+      const container = document.getElementById('partner-container');
+      container.innerHTML = '';
+      partners.forEach(p => {
+        container.innerHTML += `
+          <div class="card" style="display:flex; flex-direction:row; align-items:center; padding:15px; gap:15px;">
+            <img src="${p.logo}" style="width:75px; height:75px; border-radius:12px; object-fit:cover; background:#ddd;" onerror="this.src='https://images.unsplash.com/photo-1552566626-52f8b828add9?w=150'">
+            <div style="flex:1;">
+              <h4 style="margin:0 0 5px 0; color:var(--dark); font-weight:700;">${p.name}</h4>
+              <p style="margin:0 0 10px 0; font-size:0.85rem; color:#666;">${p.desc}</p>
+              <button class="btn btn-outline" style="padding:6px 12px; font-size:0.8rem; width:auto; flex:none;" onclick="showToast('Membuka halaman merchant ${p.name}...')">Kunjungi</button>
+            </div>
+          </div>
+        `;
+      });
+    }
 
-
+    // Menggambar Halaman Riwayat Pemilihan Mood Berdasarkan Tanggal
     function renderHistory() {
-
       const container = document.getElementById('hist-container');
-
       if(history.length === 0) {
-
-        container.innerHTML = '<p style="text-align:center">Belum ada riwayat pemilihan mood.</p>';
-
+        container.innerHTML = '<p class="text-center" style="color:#999; padding:40px 0;">Kamu belum pernah merekam jejak emosimu.</p>';
         return;
-
       }
-
-      container.innerHTML = history.map(h => `
-
-        <div class="card" style="padding:15px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;">
-
-          <span>Mood: <b>${h.mood.toUpperCase()}</b></span>
-
-          <span style="color:#888; font-size:0.9rem">${h.date}</span>
-
-        </div>
-
-      `).join('');
-
+      container.innerHTML = history.map(h => {
+        let emoji = h.mood === 'senang' ? '😊' : h.mood === 'sedih' ? '😢' : h.mood === 'capek' ? '😴' : '😠';
+        return `
+          <div class="card" style="padding:15px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; border-left: 5px solid var(--primary);">
+            <span>Merasa: <b style="color:var(--accent)">${h.mood.toUpperCase()} ${emoji}</b></span>
+            <span style="color:#7F8C8D; font-size:0.9rem; font-weight:500;">📅 ${h.date}</span>
+          </div>
+        `;
+      }).join('');
     }
 
+    // Inisialisasi awal saat aplikasi pertama dibuka
+    renderPartners();
 
-
+    // Jalankan Registrasi PWA Service Worker Berkelanjutan
     if ('serviceWorker' in navigator) {
-
       navigator.serviceWorker.register('./service-worker.js')
-
         .then(() => console.log('SW registered!'))
-
         .catch(err => console.error('SW gagal:', err));
-
     }
-
   </script>
-
 </body>
-
 </html>
